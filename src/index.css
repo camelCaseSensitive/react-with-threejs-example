@@ -15,7 +15,8 @@ body {
 }
 
 .vis {
-  position: fixed;
+  /* position: fixed; */
+  position: relative;
   top: 0;
   right: 0;
   bottom: 0;
@@ -31,4 +32,10 @@ body {
   margin: -1px;
   padding: 0;
   border: 0;
+}
+
+.app {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
 }
