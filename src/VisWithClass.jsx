@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
+import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls.js'
+import {followPath, rotateCamera} from './cameraMovement.js'
 
 // let mixer;
 // let go = false;
 let animStartTime = 0;
+let camera;
+let fps;
 
 class VisWithClass extends Component {
   // let animStartTime = 0;
   constructor(props) {
     super(props)
-    console.log(props.time)
+    // console.log(props.time)
     animStartTime = props.time;
   }
 
@@ -23,13 +27,30 @@ class VisWithClass extends Component {
     const height = 400;
 
     const scene = new THREE.Scene()
-    const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
+    camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
     const renderer = new THREE.WebGLRenderer({ antialias: true })
     const geometry = new THREE.BoxGeometry(1, 1, 1)
     const material = new THREE.MeshBasicMaterial({ color: 0xff00ff })
     const cube = new THREE.Mesh(geometry, material)
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    // const controls = new OrbitControls(camera, renderer.domElement);
+
+    scene.background = new THREE.CubeTextureLoader()
+    .setPath( 'src/cubemaps/' )
+    .load( [
+      'px.png',
+      'nx.png',
+      'py.png',
+      'ny.png',
+      'pz.png',
+      'nz.png'
+    ] );
+    // scene.background = texture;
+
+    fps = new PointerLockControls(camera, renderer.domElement)
+    addEventListener('mousedown', (event) => {
+      fps.lock()
+    });
 
     // const gltfLoader = new GLTFLoader();
     const gltfLoader = new GLTFLoader().setPath( 'src/glb/' );
@@ -57,10 +78,18 @@ class VisWithClass extends Component {
         action.time = animStartTime;
         action.play()
         thisComponent.mixer = mixer;
+
+        gltf.scene.traverse( function( object ) {
+          if ( object.isMesh ) {
+            object.castShadow = true;
+            object.material.metalness = 0
+          }
+         } );
+
       },
       // called while loading is progressing
       function ( xhr ) {
-        console.log(xhr)
+        // console.log(xhr)
 
         // console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
 
@@ -96,8 +125,16 @@ class VisWithClass extends Component {
     light.shadow.camera.bottom = -100;
     scene.add(light);
 
-    light = new THREE.AmbientLight(0xFFFFFF, 4.0);
-    scene.add(light);
+    //Create a plane that receives shadows (but does not cast them)
+    const planeGeometry = new THREE.PlaneGeometry( 20, 20, 32, 32 );
+    const planeMaterial = new THREE.MeshStandardMaterial( { color: 0xADD8E6 } )
+    const plane = new THREE.Mesh( planeGeometry, planeMaterial );
+    plane.receiveShadow = true;
+    plane.rotation.x = -Math.PI/2
+    scene.add( plane );
+
+    // light = new THREE.AmbientLight(0xFFFFFF, 4.0);
+    // scene.add(light);
 
     this.scene = scene
     this.camera = camera
@@ -135,7 +172,7 @@ class VisWithClass extends Component {
     cancelAnimationFrame(this.frameId)
   }
 
-  animate = () => {
+  animate = (time) => {
     this.cube.rotation.x += 0.01
     this.cube.rotation.y += 0.01
 
@@ -148,6 +185,9 @@ class VisWithClass extends Component {
       // console.log(go)
       this.mixer.update(dt)
     }
+
+    followPath(camera, time/1000)
+	  fps.update(15)  // argument is a camera smoothing value 
 
     this.renderScene()
     this.frameId = window.requestAnimationFrame(this.animate)
