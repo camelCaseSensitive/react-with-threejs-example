@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import * as THREE from 'three'
 import {GLTFLoader} from 'three/examples/jsm/loaders/GLTFLoader.js'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js'
-import {PointerLockControls} from 'three/examples/jsm/controls/PointerLockControls.js'
+import {PointerLockControls} from './PointerLockControls.js'
 import {followPath, rotateCamera} from './cameraMovement.js'
 
 // let mixer;
