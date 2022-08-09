@@ -6,11 +6,12 @@ import Percent from './Percent'
 
 const App = () => (
   // let currentTime = Date.now()
-  <div className="app">
-    <h1>Three JS React Component</h1>
-    {/* <input type="number" min="0" max="100"/> */}
-    <Vis time="9"/>
+  <div className="app" id="app">
+  {/* //   <h1>Three JS React Component</h1> */}
+  //   {/* <input type="number" min="0" max="100"/> */}
+  //   <Vis time="9"/>
   </div>
+  // <Vis time="9"/>
 )
 
 export default App

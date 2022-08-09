@@ -14,13 +14,13 @@ export function followPath(object, t){
     
     let f = slerp(t*s - Math.floor(t*s));  // Cubic smoothing
     let path = [
-        new THREE.Vector3(-10, 30, 30),
-        new THREE.Vector3(10, 30, 30),
-        new THREE.Vector3(5, 5, 15),
-        new THREE.Vector3(10, 10, -30),
-        new THREE.Vector3(-10, 40, -30),
-        new THREE.Vector3(-10, 40, 30),
-        new THREE.Vector3(-10, 30, 30)
+        new THREE.Vector3(-100, -5, 30),
+        new THREE.Vector3(10, 3, 30),
+        new THREE.Vector3(5, 2, 15),
+        new THREE.Vector3(10, 5, -30),
+        new THREE.Vector3(-10, 3, -30),
+        new THREE.Vector3(-10, 4, 30),
+        new THREE.Vector3(-10, 1, 30)
     ]
 
     ///////////
@@ -33,13 +33,13 @@ export function followPath(object, t){
 
     let curve1 = new THREE.CatmullRomCurve3(
         [
-            new THREE.Vector3(503.8288636642929, 515.9146257869506, -190.35866285496937),
-            new THREE.Vector3(119.7958265839832, 333.487425186678, -197.78324453437614),
-            new THREE.Vector3(-324.93787262047164, 220.95401469768495, -79.68967908628815),
-            new THREE.Vector3(-447.2447760224429, 271.7158917842591, 209.09895858600086),
-            new THREE.Vector3(-195.33756099249837, 390.98475110442394, 491.55890315977416),
-            new THREE.Vector3(152.6190401163031, 378.69878570007666, 621.1810709422615),
-            new THREE.Vector3(503.8288636642929, 515.9146257869506, -190.35866285496937)
+            new THREE.Vector3(503.8288636642929, 115.9146257869506, -290.35866285496937),
+            new THREE.Vector3(219.7958265839832, 133.487425186678, -297.78324453437614),
+            new THREE.Vector3(-324.93787262047164, 120.95401469768495, -279.68967908628815),
+            new THREE.Vector3(-447.2447760224429, 171.7158917842591, 209.09895858600086),
+            new THREE.Vector3(-295.33756099249837, 190.98475110442394, 491.55890315977416),
+            new THREE.Vector3(252.6190401163031, 178.69878570007666, 621.1810709422615),
+            new THREE.Vector3(503.8288636642929, 115.9146257869506, -290.35866285496937)
         ]
     )
     ///////////
